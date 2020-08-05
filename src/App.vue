@@ -3,7 +3,7 @@
       <top/>
       <!-- <Carousel/>
       <Select/> -->
-      <Body/>
+      <router-view/>
   </div>
 </template>
 
@@ -13,14 +13,14 @@ import {GetChannel,GetNews} from './server/main'
 import { mapState } from 'vuex'
 // import Carousel from './components/Carousel'
 // import Select from './components/Select'
-import Body from './components/Body'
+// import Body from './components/Body'
 export default {
   name: 'app',
   components: {
     Top,
     // Carousel,
     // Select,
-    Body,
+    // Body,
   },
   data(){
       return {
@@ -33,7 +33,7 @@ export default {
   async mounted(){
     let res= await  GetChannel()
     this.$store.commit('setChannelist',res.data.showapi_res_body.channelList);
-    this.getNews(this.Channelist[1].channelId,'7')
+    this.getNews(this.Channelist[1].channelId,'1')
   },
   methods: {
       async getNews(id,num){

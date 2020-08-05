@@ -1,18 +1,46 @@
 <template>
   <div class="container">
-      <el-pagination
+       <el-pagination
             background
             layout="prev, pager, next"
-            :total="Newlist.allPages">
-      </el-pagination>
+            @current-change="chang"
+            @prev-click="per"
+            @next-click="next"
+            :total="NewList.allPages">
+        </el-pagination>
+        
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+import {GetNews} from '../server/main'
 export default {
 computed: {
-    ...mapState(['Newlist'])
+    ...mapState(['NewList','index','id'])
+},
+data(){
+    return{
+        
+    }
+},
+methods: {
+    chang(val){
+        this.$store.commit('setIndex',val)
+        this.getList(this.id,val)
+    },
+    pre(val){
+        this.$store.commit('setIndex',val)
+        this.getList(this.id,val)
+    },
+    next(val){
+        this.$store.commit('setIndex',val)
+        this.getList(this.id,val)
+    },
+    async getList(id,num){
+        let res=await GetNews(id,num)
+        this.$store.commit('setNewList',res.data.showapi_res_body.pagebean)
+    }
 }
 }
 </script>

@@ -10,8 +10,11 @@
         </el-col>
            
         <el-col :span="17">
-              <el-menu class="el-menu-demo" text-color="" mode="horizontal" default-active="5572a108b3cdc86cf39001cd">
-                                <el-menu-item v-for="item in Channelist.slice(0,6)" :key="item.channelId" :index="item.channelId" >
+              <el-menu class="el-menu-demo" text-color="" mode="horizontal" default-active="home" active-text-color='#3A88FD'>
+                                <el-menu-item @click="home" index='home'>
+                                  首页
+                                </el-menu-item>
+                                <el-menu-item @click="chan(item.channelId)" v-for="item in Channelist.slice(0,6)" :key="item.channelId" :index="item.channelId" >
                                   {{item.name}}
                                 </el-menu-item>
                                 
@@ -29,6 +32,7 @@
 
 <script>
 import {mapState} from 'vuex'
+import {GetNews} from '../server/main'
 export default {
   name: 'Top',
   props: {
@@ -40,7 +44,18 @@ export default {
     }
   },
   computed:{
-      ...mapState(['Channelist']),
+      ...mapState(['Channelist','id','index']),
+  },
+  methods:{
+    async chan(id){
+        let res =await GetNews(id,this.index)
+        this.$store.commit('setNewList',res.data.showapi_res_body.pagebean)
+        this.$router.push('/list')
+        
+    },
+    home(){
+      this.$router.push('/')
+    }
   }
 }
 </script>

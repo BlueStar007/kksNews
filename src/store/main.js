@@ -5,6 +5,8 @@ let store = new Vuex.Store({
     state: {
         Channelist: null,
         NewList: null,
+        index: 1,
+        id: null,
     },
     mutations: {
         setChannelist(state, req) {
@@ -12,6 +14,12 @@ let store = new Vuex.Store({
         },
         setNewList(state, list) {
             state.NewList = list;
+        },
+        setIndex(state,index){
+            state.index=index
+        },
+        setId(state,id){
+            state.id=id
         }
     },
     actions: {

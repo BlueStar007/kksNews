@@ -3,7 +3,7 @@
         <Carousel/>
         <Select/>
         <List/>
-        <Footer/>
+        <!-- <Footer/> -->
 
   </div>
 </template>
@@ -11,13 +11,13 @@
 <script>
 import Carousel from './Carousel'
 import Select from './Select'
-import Footer from './Footer'
+// import Footer from './Footer'
 import List from './List'
 export default {
     components: {
         Carousel,
         Select,
-        Footer,
+        // Footer,
         List,
     }
 }
