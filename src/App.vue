@@ -1,28 +1,55 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+      <top/>
+      <!-- <Carousel/>
+      <Select/> -->
+      <Body/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Top from './components/Top.vue'
+import {GetChannel,GetNews} from './server/main'
+import { mapState } from 'vuex'
+// import Carousel from './components/Carousel'
+// import Select from './components/Select'
+import Body from './components/Body'
 export default {
-  name: 'App',
+  name: 'app',
   components: {
-    HelloWorld
+    Top,
+    // Carousel,
+    // Select,
+    Body,
+  },
+  data(){
+      return {
+          newsList: null,
+      }
+  },
+  computed: {
+    ...mapState(['Channelist']),
+  },  
+  async mounted(){
+    let res= await  GetChannel()
+    this.$store.commit('setChannelist',res.data.showapi_res_body.channelList);
+    this.getNews(this.Channelist[1].channelId,'7')
+  },
+  methods: {
+      async getNews(id,num){
+          let res = await GetNews(id,num);
+          this.newsList=res.data.showapi_res_body.pagebean;
+          this.$store.commit('setNewList',this.newsList)
+      },
+
   }
+ 
 }
 </script>
 
-<style>
+<style scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    width: 1200px;
+    margin: 0 auto;
 }
 </style>
