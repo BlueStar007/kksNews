@@ -37,9 +37,13 @@ export default {
   },
   methods: {
       async getNews(id,num){
-          let res = await GetNews(id,num);
-          this.newsList=res.data.showapi_res_body.pagebean;
-          this.$store.commit('setNewList',this.newsList)
+          this.$store.commit('setShow',true)
+          await GetNews(id,num).then(res=>{
+                this.newsList=res.data.showapi_res_body.pagebean;
+                this.$store.commit('setNewList',this.newsList)
+                this.$store.commit('setShow',false)
+          })
+          
       },
 
   }

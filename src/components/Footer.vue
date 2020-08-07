@@ -38,8 +38,11 @@ methods: {
         this.getList(this.id,val)
     },
     async getList(id,num){
-        let res=await GetNews(id,num)
-        this.$store.commit('setNewList',res.data.showapi_res_body.pagebean)
+        this.$store.commit('setShow',true)
+        await GetNews(id,num).then(res=>{
+                this.$store.commit('setNewList',res.data.showapi_res_body.pagebean)
+        })
+        this.$store.commit('setShow',false)
     }
 }
 }
