@@ -8,7 +8,8 @@ let store = new Vuex.Store({
         index: 1,
         id: null,
         show: false,
-        loginShow: false
+        loginShow: false,
+        User: null
     },
     mutations: {
         setChannelist(state, req) {
@@ -28,6 +29,9 @@ let store = new Vuex.Store({
         },
         setloginShow(state, req) {
             state.loginShow = req
+        },
+        setUser(state,req){
+            state.User=req
         }
     },
     actions: {

@@ -33,7 +33,11 @@ export default {
   async mounted(){
     let res= await  GetChannel()
     this.$store.commit('setChannelist',res.data.showapi_res_body.channelList);
-    this.getNews(this.Channelist[1].channelId,'1')
+    this.getNews(this.Channelist[1].channelId,'1');
+    let user=localStorage.getItem('user')
+    if(user!=undefined){
+        this.$store.commit('setUser',user)
+    }
   },
   methods: {
       async getNews(id,num){

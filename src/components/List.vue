@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="User!=null">
       <!-- <h1>这是列表页</h1> -->
         <div class="item" v-for="item in  NewList.contentlist" :key="item.id">
                 <div class="left"><a :href="item.link"><img :src="item.havePic?item.imageurls[0].url:daImg" alt=""></a></div>
@@ -30,7 +30,7 @@ export default {
         Footer
     },
     computed: {
-        ...mapState(['NewList'])
+        ...mapState(['NewList','User'])
     },
     data(){
         return {

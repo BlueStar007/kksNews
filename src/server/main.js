@@ -32,7 +32,7 @@ export async function GetNews(channelId, num) {
     return res;
 }
 export async function Login(user) {
-    let res = axios.post("/api/user/login", user);
+    let res = await axios.post("/api/user/login", user);
     return res;
 
 }
@@ -40,6 +40,12 @@ export async function Login(user) {
 
 
 
+
 //注销 删除token
 
 //注册  /api/user/reg    post   loginId loginPwd   nickname
+
+export async function reg(user){
+    let res =await axios.post('/api/user/reg',user)
+    return res;
+}

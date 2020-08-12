@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+
 Vue.use(VueRouter)
 
 let router = new VueRouter({
@@ -16,6 +17,14 @@ let router = new VueRouter({
             component: () =>
                 import ('../components/List')
         },
+        {
+            name: 'login',
+            path: '/login',
+            component: () =>
+                import ('../components/login')
+            
+
+        }
         // {
         //     name: 'all',
         //     path: '*',

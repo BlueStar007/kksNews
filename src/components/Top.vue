@@ -27,11 +27,42 @@
         </el-menu>
       </el-col>
       <el-col :span="3">
-        <div>
-          <a v-if="!loginShow" href="#" @click.stop="Log">登录</a>
-          <a v-if="!loginShow" href>注册</a>
+        <div v-if="User!=null"><span style="color:teal">{{User}}</span>
+          <el-button type="text" class="zv"  @click="out">注销</el-button>
+        </div>
+
+        <div v-if="User===null">
+          <router-link :to="{name: 'login'}">登录</router-link>
+          <!-- /////////element控件//////// -->
+          <el-button type="text" class="zv"  @click="dialogFormVisible = true">注册</el-button>
+            <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+              <el-form :model="form">
+
+                <el-form-item label="账号" >
+                  <el-input v-model="form.loginId" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="密码" >
+                  <el-input v-model="form.loginPwd" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item label="昵称">
+                  <el-input v-model="form.nickname" autocomplete="off"></el-input>
+                </el-form-item>
+                
+              </el-form>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="sub">确 定</el-button>
+              </div>
+            </el-dialog>
+            <!-- /////////////////////////////// -->
+
+
           <span v-if="loginShow">登陆中....</span>
         </div>
+
+
       </el-col>
     </el-row>
   </div>
@@ -39,15 +70,22 @@
 
 <script>
 import { mapState } from "vuex";
-import { GetNews, Login  } from "../server/main";
+import { GetNews,reg } from "../server/main";
 export default {
   name: "Top",
   props: {},
   data() {
-    return {};
+    return {
+      dialogFormVisible: false,
+      form: {
+        loginId: '',
+        loginPwd: '',
+        nickname: ''
+      }
+    };
   },
   computed: {
-    ...mapState(["Channelist", "id", "index","loginShow"]),
+    ...mapState(["Channelist", "id", "index","loginShow","User"]),
   },
   methods: {
     async chan(id) {
@@ -58,14 +96,36 @@ export default {
     home() {
       this.$router.push("/");
     },
-    async Log() {
-      this.$store.commit('setloginShow',true)
-      await Login({ loginId: "user", loginPwd: "123123" }).then(res=>{
-        this.$store.commit('setloginShow',false)
-        console.log(res);
-      })
-     
+    out(){
+        localStorage.removeItem('user');
+        this.$store.commit('setUser',null)
     },
+    async sub(){
+      this.dialogFormVisible=false;
+
+        await reg(this.form).then(res=>{
+           ////登录后的事项
+           if(res.data.code==0){
+             
+           this.$notify({
+              title: '注册成功，即将跳转首页',
+              
+            });
+            this.$router.push('./login') 
+          }else{
+            this.$notify({
+              title: '错误',
+              message: res.data.msg
+            });
+
+          }
+           console.log(res);
+        })
+    }
+    // Log() {
+    //      this.$router.push("/login");
+     
+    // },
     
 
   },
@@ -79,6 +139,11 @@ export default {
   letter-spacing: 0.2rem;
   line-height: 1.6rem;
   margin-top: 15px;
+}
+.zv{
+  color: black;
+  font-size: 16px;
+  margin-left: 14px;
 }
 .blue span {
   letter-spacing: 0.5rem;
