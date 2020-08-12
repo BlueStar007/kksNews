@@ -31,3 +31,15 @@ export async function GetNews(channelId, num) {
 
     return res;
 }
+export async function Login(user) {
+    let res = axios.post("/api/user/login", user);
+    return res;
+
+}
+///api/user/whoami   get   authorization: bearer tokenxxxx
+
+
+
+//注销 删除token
+
+//注册  /api/user/reg    post   loginId loginPwd   nickname
